@@ -1,0 +1,11 @@
+# Browser async and tab-visibility verification
+
+Use when a CDP/browser helper times out or a responsive screenshot appears to show a stuck overlay.
+
+- Inspect `document.visibilityState`, media-query matches, computed transform and bounding rectangles before patching an apparent mobile-layout defect. A hidden browser tab can match the phone breakpoint while its CSS transition remains frozen at the desktop transform. Activate the isolated QA tab with `Page.bringToFront`, wait for measured final geometry, then recapture and hit-test controls. Never activate unrelated personal tabs.
+- Keep browser-harness JavaScript evaluations short. Its Runtime.evaluate IPC deadline can be shorter than the outer browser_exec timeout; a long awaited provider/UI loop may exceed that deadline even though the expression continues in the page. Split setup, bounded state checks and capture, or use an isolated native CDP harness for longer workflows.
+- After an evaluation timeout, read back the exact UI/request state before retrying actions. A transport timeout is not proof that a click, request or calculation failed; replay can duplicate side effects. Record helper failure separately from application outcome and verify completed state explicitly.
+- Require a settled visible-tab screenshot, actual control hit-test and correct viewport/document widths before accepting a layout. Do not ship a speculative app patch for a background-rendering artifact.
+- Persist runtime assertions before starting screenshot sweeps; a later capture failure must not discard completed test evidence. Bind the report to the exact artifact hash.
+- Tile very long documents when a full-height `Page.captureScreenshot` fails: use bounded CSS-pixel clips (for example, 7,000 pixels high) with `captureBeyondViewport: true`, save each tile and its document offset, then stitch before making section crops. Save DOM section rectangles for the same viewport; a capture-size limit is not an application layout defect.
+- Label QA contact sheets outside the page frame and tell visual reviewers those labels are not product UI. State the intended reader role explicitly: speaker instructions are appropriate in a speaker brief, even when they would be inappropriate on audience slides.

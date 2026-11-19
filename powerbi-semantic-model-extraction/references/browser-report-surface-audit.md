@@ -1,0 +1,25 @@
+# Browser report-surface audit
+
+When exploring what a source report can add to an existing dashboard:
+
+1. Attempt the requested desktop tool, but distinguish a cua-driver session-setup failure from report access failure. Reuse authenticated Chrome/CDP as an explicitly disclosed fallback; do not reinstall or change permissions speculatively.
+2. Inventory SDK pages with visibility, visual IDs/types/titles, report/page/visual filters. Inactive pages can expose metadata while `getSlicerState()` returns `visualConfigIsNotInitialized`; activate each page before collecting slicer state or exporting. Catch each SDK rejection independently and put a timeout on each promise so one unsupported visual does not erase the batch.
+3. Capture medium page batches to local ignored JSON and CSV. Export only data-bearing visuals; preserve duplicate titles by visual ID. Reconcile page denominator, successful exports, actual data-row counts and distinct entity IDs programmatically. A visual export cap and a semantic-query MCP cap are separate limits.
+4. Do not print whole input inventories on login pages: hidden fields may contain authentication state. Restrict diagnostics to visible button text, identifier fields and safe SDK identifiers, never full embed config or token-bearing URLs.
+5. SDK page switching can leave a custom portal's navigation highlight stale. Verify `getActivePage()` and saved page filters; screenshot highlight alone is not authoritative. Dismiss only a non-security notification overlay, then verify the rendered report alongside the structured export.
+6. Probe new developer-count denominators for nonblank and nonzero coverage before describing them as book-wide whitespace. Probe remaining-opportunity formulas on complete rows; gross gap, qualified seat pipeline and source-reported remaining gap can have different grains. Keep blanks unknown and keep failed candidate-formula tests in the notes.
+7. Check revenue components against cards and change logs. A broad product ACR may already include credit overage; separately displayed credits must not be added again. Compare seat-only ARPU with broad ACR-per-seat before treating a value as a license price.
+8. Check budget populations separately from actuals. A Healthcare/RLS-scoped account table can coexist with budget rows from other geographies. Filtering a view does not prove every fact table honors the same dimensions.
+9. Verify seat-like units: usage-unit counts, fractional counts and billing-model flags must not become developer headcount. Assignment aliases and pipeline-stage age are context, not proof of personal engagement or stalled delivery.
+10. Save sensitive notes with their exports under a Git-ignored data path, not tracked engineering docs. Verify with `git check-ignore`. Keep recommendations distinct from implementation, and state which pages/hidden pages/model measures remain uninspected.
+
+## Positional field catalog and feature map
+
+1. Rebuild from the saved primary scan manifest rather than rescanning the source unnecessarily. Count inventoried pages, captured pages, successful exports and header occurrences independently; exclude targeted account replays from primary cohort counts.
+2. Use `csv.reader` and identify each occurrence by page ID, visual ID and column position. Do not use a header-keyed dictionary as the sole parser: duplicate headers overwrite earlier values. Retain space-only headers because unnamed columns can carry real data.
+3. Preserve the raw label and an escaped representation alongside a legible display label. Remove directional characters only for display; do not merge labels differing in trailing spaces or assume identical labels across visuals share a formula.
+4. Skip only empty physical CSV records (`[]`). Retain quoted empty cells (`['']`) as source blanks and reject nonempty rows whose widths differ from the header; a header-only export establishes no observed values, not a zero measurement.
+5. Recursively inventory actual table/column/measure targets from saved filter/slicer metadata. Mark them reference-only unless independently probed; selector titles and placeholders do not prove usable measures.
+6. Keep private per-occurrence value profiles separate from schema-only Markdown/JSON. Verify every primary header occurrence and metadata target is represented, and test that observed samples cannot enter the tracked outputs.
+7. Assign navigation families and feature IDs with explicit readiness, join/period basis and acceptance gates. Treat label-derived grouping as discovery only, not semantic approval. Validate mappings against a dedicated family section or feature-ID-qualified syntax; arrows in relationship prose are not mapping rows.
+8. Test deterministic rebuild, duplicate/anonymous headers, Unicode identity, blank physical records, malformed widths, sample exclusion and complete feature linkage using synthetic fixtures. Reconcile generated counts independently against the original capture headers before reporting completeness.
